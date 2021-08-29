@@ -26,6 +26,11 @@
             @endif
         </div>
 
+        <div class="form-group mb-3">
+            <label for="remember">Remember me</label>
+            <input type="checkbox" name="remember" value="1">
+        </div>
+
         <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
         
         @include('auth.partials.copy')
