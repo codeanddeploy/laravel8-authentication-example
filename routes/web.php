@@ -33,9 +33,30 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/login', 'LoginController@show')->name('login.show');
         Route::post('/login', 'LoginController@login')->name('login.perform');
 
+
+        /**
+         * Two Factor Routes
+         */
+        Route::get('/token', 'TwoFactorController@show')->name('token.show');
+        Route::post('/token', 'TwoFactorController@perform')->name('token.perform');
     });
 
     Route::group(['middleware' => ['auth']], function() {
+
+        /**
+         * Profile Routes
+         */
+        Route::get('/profile', 'ProfileController@index')
+            ->name('profile.index');
+        Route::post('/profile/two-factor/enable', 'ProfileController@enableTwoFactor')
+            ->name('profile.enableTwoFactor');
+        Route::post('/profile/two-factor/disable', 'ProfileController@disableTwoFactor')
+            ->name('profile.disableTwoFactor');
+        Route::get('/profile/two-factor/verification', 'ProfileController@getVerifyTwoFactor')
+            ->name('profile.getVerifyTwoFactor');
+        Route::post('/profile/two-factor/verification', 'ProfileController@postVerifyTwoFactor')
+            ->name('profile.postVerifyTwoFactor');
+
         /**
          * Logout Routes
          */

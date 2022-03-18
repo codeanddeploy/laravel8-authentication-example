@@ -18,9 +18,16 @@
       </form>
 
       @auth
-        {{auth()->user()->name}}
-        <div class="text-end">
-          <a href="{{ route('logout.perform') }}" class="btn btn-outline-light me-2">Logout</a>
+        
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+            {{auth()->user()->name}}
+          </button>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+            <li><a class="dropdown-item active" href="{{ route('profile.index') }}">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{ route('logout.perform') }}">Logout</a></li>
+          </ul>
         </div>
       @endauth
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\TwoFactor\Authy;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Login\RememberMeExpiration;
@@ -10,6 +11,13 @@ use App\Services\Login\RememberMeExpiration;
 class LoginController extends Controller
 {
     use RememberMeExpiration;
+
+    protected $authy;
+
+    public function __construct(Authy $authy) 
+    {
+        $this->authy = $authy;
+    }
 
     /**
      * Display login page.
@@ -58,6 +66,26 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user) 
     {
-        return redirect()->intended();
+        if(!$user->isTwoFactorEnabled()){
+            return redirect()->intended();
+        }
+
+        $status = $this->authy->verifyUserStatus($user->authy_id);
+
+        if($status->ok() && $status->bodyvar('status')->registered) {
+            Auth::logout();
+
+            $request->session()->put('auth.2fa.id', $user->id);
+
+            $sms = $this->authy->sendToken($user->authy_id);
+
+            if($sms->ok()){
+                return redirect('/token');
+            }
+        } else {
+             Auth::logout();
+            return redirect('login')->with('message', __('Could not confirm Authy status!'));
+        }
+        
     }
 }
