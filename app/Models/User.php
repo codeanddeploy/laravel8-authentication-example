@@ -29,10 +29,6 @@ class User extends Authenticatable
         'email',
         'username',
         'password',
-        'authy_status',
-        'authy_id',
-        'authy_country_code',
-        'authy_phone'
     ];
 
     /**
@@ -43,7 +39,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'authy_id'
     ];
 
     /**
@@ -64,15 +59,5 @@ class User extends Authenticatable
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
-    }
-
-    /**
-     * Check if factor enabled
-     * 
-     * @return boolean
-     */
-    public function isTwoFactorEnabled()
-    {
-        return $this->authy_status == 1 ? true : false;
     }
 }

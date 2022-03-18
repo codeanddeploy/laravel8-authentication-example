@@ -9,12 +9,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.2",
         "laravel/sanctum": "^2.14.1",
-<<<<<<< HEAD
-        "laravel/tinker": "^2.7",
-        "authy/php": "^4.0"
-=======
         "laravel/tinker": "^2.7"
->>>>>>> 3d6f6d3486209cc6cd439f2b25171b46ba5135aa
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
